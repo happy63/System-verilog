@@ -1,6 +1,7 @@
 //IPC interprocess communication 
 //Trigger : ->
 ///edge sensitive_blocking @(), level_sensitive_non-blocking wait()
+// link --> https://edaplayground.com/x/WWsd
 module tb;
   
   event a;
