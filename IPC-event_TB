@@ -1,0 +1,21 @@
+//IPC interprocess communication 
+//Trigger : ->
+///edge sensitive_blocking @(), level_sensitive_non-blocking wait()
+module tb;
+  
+  event a;
+  
+  initial begin
+    
+    #10;
+    -> a;
+    
+    end
+  initial begin
+   // @(a);
+    wait(a.triggered);
+    $display("Recived event at %0t",$time);
+  end
+  
+  
+endmodule
