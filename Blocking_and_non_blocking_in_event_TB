@@ -1,0 +1,25 @@
+//IPC interprocess communication 
+//Trigger : ->
+///edge sensitive_blocking @(), level_sensitive_non-blocking wait()
+//can miss event when a blocking event is used so use level sensitive
+// LINK --> https://edaplayground.com/x/iwmW
+module tb;
+  event a1, a2;
+  
+  initial begin
+    -> a1;
+    #10;
+    -> a2;
+  end
+  
+  initial begin 
+    @(a1);
+    //wait(a1.triggered);
+    $display("Event A1 triggered at %0t",$time);
+   // @(a2);
+    wait(a2.triggered);
+
+    $display("Event A1 triggered at %0t",$time);
+    
+  end
+endmodule
