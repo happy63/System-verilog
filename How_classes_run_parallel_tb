@@ -1,0 +1,88 @@
+//How to know if all the classes work in parallal
+//link --> https://edaplayground.com/x/ENaV
+/*module tb;
+  int data1,data2;
+  event done;
+  
+  ////Generator
+  initial begin 
+    for(int i=0; i<10;i++) begin
+      data1 =$urandom();
+      $display("The data1 send is%0d",data1);
+      #10;
+    end
+    -> done;
+  end
+  //Driver
+  initial begin
+    forever begin
+    data2=data1;
+      $display("The data2 recieved is%0d",data2);
+    end
+
+  end
+  
+  
+  initial begin
+    wait(done.triggered);
+    $finish();
+    
+  end
+endmodule*/
+module tb;
+
+  int data1, data2;
+
+  event data_ready;
+  event done;
+
+  // Generator
+  initial begin
+
+    for (int i = 0; i < 10; i++) begin
+
+      data1 = $urandom();
+
+      $display("[%0t] Generator: data1 sent = %0d",
+               $time, data1);
+
+      -> data_ready;
+
+      #10;
+
+    end
+
+    -> done;
+
+  end
+
+
+  // Driver
+  initial begin
+
+    forever begin
+
+      @(data_ready);
+
+      data2 = data1;
+
+      $display("[%0t] Driver: data2 received = %0d",
+               $time, data2);
+
+    end
+
+  end
+
+
+  // End simulation
+  initial begin
+
+    wait(done.triggered);
+
+    $display("[%0t] Simulation completed", $time);
+
+    $finish();
+
+  end
+
+endmodule
